@@ -9,14 +9,46 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "18.15.13",
-    "@types/react": "18.0.38",
-    "@types/react-dom": "18.0.11",
-    "eslint": "8.39.0",
-    "eslint-config-next": "13.3.1",
-    "next": "13.3.1",
-    "react": "18.2.0",
+    "@types/node": "^18.15.13",
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
+    "next": "^13.3.1",
+    "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4"
+    "graphql": "^16.5.0",
+    "graphql-ws": "^5.8.2",
+    "react-redux": "8.0.5",
+    "@reduxjs/toolkit": "1.9.1",
+    "@apollo/client": "^3.6.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "eslint": "^8.39.0",
+    "eslint-config-next": "^13.3.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "husky": "8.0.1"
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": "**/*.{js,jsx,ts,tsx}",
+        "extends": [
+          "next",
+          "prettier"
+        ],
+        "plugins": [
+          "import"
+        ],
+        "rules": {
+          "@next/next/no-img-element": 0,
+          "import/order": 2
+        }
+      }
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,css,scss,json,yml,yaml,html,graphql}": "prettier --write",
+    "*.{ts,tsx,js,jsx}": "eslint --fix --max-warnings=0"
   }
 }
