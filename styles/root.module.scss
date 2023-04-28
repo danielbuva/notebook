@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: left;
+  max-width: 1440px;
+  margin: auto;
+
+  position: relative;
+
+  button:hover {
+    cursor: pointer;
+  }
+}

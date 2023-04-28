@@ -1,23 +1,14 @@
-import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import AddNotebook from "@/components/notebook/AddNotebook";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>next notebook</title>
-        <meta name="description" content="todo next app" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-        <link rel="icon" href="/favicon-96.ico" />
-      </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <button>add notebook</button>
+        <AddNotebook />
       </main>
     </>
   );
