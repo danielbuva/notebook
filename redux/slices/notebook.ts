@@ -16,5 +16,5 @@ const notebookSlice = createSlice({
   },
 });
 
-export const { toggle } = notebookSlice.actions;
+export const toggle = notebookSlice.actions.toggle();
 export default notebookSlice.reducer;

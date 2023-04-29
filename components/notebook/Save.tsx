@@ -1,5 +1,13 @@
+import { useAppDispatch } from "@/hooks/useRedux";
+import { toggle } from "@/redux/slices/notebook";
+
 const Save = () => {
-  return <button>save</button>;
+  const dispatch = useAppDispatch();
+  const handleSave = () => {
+    dispatch(toggle);
+  };
+  
+  return <button onClick={handleSave}>save</button>;
 };
 
 export default Save;
