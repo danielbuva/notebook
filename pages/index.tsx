@@ -9,6 +9,9 @@ const Home = () => {
         <li>
           <Link href="/notebooks">notebooks</Link>
         </li>
+        <li>
+          <Link href="/test">test</Link>
+        </li>
       </ul>
     </Layout>
   );
