@@ -4,6 +4,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Provider as ReduxProvider } from "react-redux";
 import ApolloWrapper from "@/components/app/ApolloWrapper";
+import Link from "next/link";
+import Layout from "@/components/app/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,7 +21,12 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <ReduxProvider store={store}>
         <ApolloWrapper>
-          <Component {...pageProps} />
+          <Layout>
+            <Link href="/">
+              <h1>hello</h1>
+            </Link>
+            <Component {...pageProps} />
+          </Layout>
         </ApolloWrapper>
       </ReduxProvider>
     </>
