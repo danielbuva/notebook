@@ -17,8 +17,11 @@
     "@types/node": "^18.15.13",
     "@types/react": "^18.0.38",
     "@types/react-dom": "^18.0.11",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "graphql": "^16.5.0",
     "graphql-ws": "^5.8.2",
+    "jsonwebtoken": "^9.0.0",
     "next": "^13.3.1",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
@@ -26,6 +29,10 @@
     "sass": "^1.52.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie": "^0.5.1",
+    "@types/cors": "^2.8.13",
+    "@types/jsonwebtoken": "^9.0.2",
     "eslint": "^8.39.0",
     "eslint-config-next": "^13.3.1",
     "eslint-config-prettier": "^8.5.0",
