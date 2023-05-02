@@ -1,0 +1,19 @@
+type Query {
+  hello: String
+  notebook: Notebook
+}
+
+type User {
+  id: ID!
+  name: String!
+  notebook: [Notebook]!
+}
+
+type Notebook {
+  title: String!
+  note: [Note]!
+}
+
+type Note {
+  content: String
+}

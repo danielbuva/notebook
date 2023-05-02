@@ -5,11 +5,11 @@ import Layout from "@/components/app/Layout";
 
 const Notebooks = () => {
   return (
-    <Layout>
+    <>
       <AddNotebook />
       <NotebookInput />
       <Binder />
-    </Layout>
+    </>
   );
 };
 
