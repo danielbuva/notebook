@@ -1,7 +1,7 @@
 import { JwtPayload, verify } from "jsonwebtoken";
 import { GetServerSideProps } from "next";
 import { parse } from "cookie";
-import { decodeToken, getSecret } from "@/utils/auth";
+import { getTokenName } from "@/utils/auth";
 import Link from "next/link";
 
 const Login = ({ name }: { name: string }) => {
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { name } };
   }
 
-  name = decodeToken(token);
+  name = getTokenName(token);
 
   if (!name) {
     return { props: { name } };

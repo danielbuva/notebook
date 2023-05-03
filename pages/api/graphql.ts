@@ -2,12 +2,10 @@ import prisma from "@/prisma/prisma";
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import context from "@/graphql/context";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { MyContext } from "@/lib/types/auth";
 
-export type MyContext = {
-  name: string;
-  req: NextApiRequest;
-  res: NextApiResponse;
+type AddNotebookArgs = {
+  title: string;
 };
 
 const typeDefs = `#graphql
@@ -34,12 +32,24 @@ type Note {
 const resolvers = {
   Query: {
     hello: (_: any, __: any, contextValue: MyContext) => {
-      return `heyo: ${contextValue.name}`;
+      return `heyo: ${contextValue.id}`;
     },
     notebook: async (_: any, __: any, contextValue: MyContext) => {
       return await prisma.user.findUnique({
         select: { Notebook: true },
-        where: { name: contextValue.name },
+        where: { id: contextValue.id },
+      });
+    },
+    addNotebook: async (
+      _: any,
+      args: AddNotebookArgs,
+      contextValue: MyContext
+    ) => {
+      return await prisma.notebook.create({
+        data: {
+          title: args.title,
+          authorId: contextValue.id,
+        },
       });
     },
   },

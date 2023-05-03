@@ -27,7 +27,7 @@ const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         break;
       }
-      createUserSession(user.name, res);
+      createUserSession(user, res);
       break;
     }
     case "register": {
@@ -49,7 +49,7 @@ const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         break;
       }
-      createUserSession(user.name, res);
+      createUserSession(user, res);
       break;
     }
     default: {

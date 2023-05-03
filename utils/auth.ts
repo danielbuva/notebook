@@ -1,6 +1,5 @@
 import prisma from "@/prisma/prisma";
 import Cors from "cors";
-import type { User } from "@prisma/client";
 import { compare, hash } from "bcrypt";
 import {
   type SignOptions,
@@ -11,6 +10,7 @@ import {
 } from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
+import { User } from "@/lib/types/auth";
 
 type LoginType = {
   name: string;
@@ -35,7 +35,7 @@ export const register = async ({
   const user = await prisma.user.create({
     data: { name, passwordHash },
   });
-  return user;
+  return { id: user.id, name: user.name };
 };
 
 export const login = async ({
@@ -51,16 +51,15 @@ export const login = async ({
   );
 
   if (!passwordsMatch) return null;
-  return existingUser;
+  return { id: existingUser.id, name: existingUser.name };
 };
 
 export const createUserSession = (
-  name: string,
+  userPayload: User,
   res: NextApiResponse
 ): void => {
-  const payload = { name };
   const options = { expiresIn: "69h" } as SignOptions;
-  const token = sign(payload, getSecret(), options);
+  const token = sign(userPayload, getSecret(), options);
 
   res.setHeader(
     "Set-Cookie",
@@ -97,7 +96,12 @@ export const applyCors = (
   });
 };
 
-export const decodeToken = (token: string) => {
+export const getTokenName = (token: string) => {
   const { name } = verify(token, getSecret()) as DecodedToken;
   return name;
+};
+
+export const getTokenId = (token: string) => {
+  const { id } = verify(token, getSecret()) as DecodedToken;
+  return id;
 };

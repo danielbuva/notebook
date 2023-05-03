@@ -1,17 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { parse } from "cookie";
-import { decodeToken } from "@/utils/auth";
+import { getTokenId } from "@/utils/auth";
 import { ContextFunction } from "@apollo/server";
-import { MyContext } from "@/pages/api/graphql";
-
+import { MyContext } from "@/lib/types/auth";
 
 let context: ContextFunction<[NextApiRequest, NextApiResponse], MyContext>;
 
 context = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = parse(req.headers.cookie || "");
-  const name = decodeToken(token);
+  const id = getTokenId(token);
 
-  return { res, req, name };
+  return { res, req, id };
 };
 
 export default context;

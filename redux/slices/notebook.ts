@@ -1,9 +1,8 @@
+import { GetNotebooks } from "@/graphql/queries/notebook";
+import { useQuery } from "@apollo/client";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-type Notebook = {
-  title: string;
-  content: string | null;
-};
+import { setInitialData } from "../store";
+import { Notebook } from "@/lib/types/notebook";
 
 type NotebookState = {
   show: boolean;
@@ -21,6 +20,9 @@ const notebookSlice = createSlice({
   name: "notebook",
   initialState,
   reducers: {
+    setInitialData: (state, action: PayloadAction<[]>) => {
+      state.notebooks = action.payload;
+    },
     toggle: (state) => {
       state.show = !state.show;
     },
