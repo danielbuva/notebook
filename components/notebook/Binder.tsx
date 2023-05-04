@@ -1,7 +1,11 @@
-import { useAppSelector } from "@/hooks/useRedux";
+import { GetNotebooks } from "@/graphql/queries/notebook";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { setInitialData } from "@/redux/store";
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
 
 const Binder = () => {
+  const { data } = useQuery(GetNotebooks);
   const notebooks = useAppSelector((state) => state.notebook.notebooks);
   if (notebooks.length === 0) return null;
 

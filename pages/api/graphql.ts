@@ -9,9 +9,20 @@ type AddNotebookArgs = {
 };
 
 const typeDefs = `#graphql
+schema {
+  query: Query
+  mutation: Mutation
+}
+
 type Query {
   hello: String
   notebook: Notebook
+  GetNotebooks(name: String!): [Notebook]!
+}
+
+type Mutation {
+  addNotebook(name: String!): Notebook!
+  sayHello(text: String!): String!
 }
 
 type User {
@@ -40,17 +51,29 @@ const resolvers = {
         where: { id: contextValue.id },
       });
     },
+  },
+  Mutation: {
+    sayHello: (
+      _: any,
+      args: { text: string },
+      contextValue: MyContext
+    ) => {
+      console.log("ARGS FROM SAYHELLO: ", args);
+      return args.text + "hello";
+    },
     addNotebook: async (
       _: any,
       args: AddNotebookArgs,
       contextValue: MyContext
     ) => {
-      return await prisma.notebook.create({
+      const notebook = await prisma.notebook.create({
         data: {
           title: args.title,
           authorId: contextValue.id,
         },
       });
+      console.log({ notebook, args, contextValue });
+      return notebook;
     },
   },
 };

@@ -5,7 +5,7 @@ import styles from "@/lib/styles/root.module.scss";
 import { addNotebook, setTitle, toggle } from "@/redux/slices/notebook";
 import type { ChangeEvent, KeyboardEvent } from "react";
 
-const NotebookInput = () => {
+const NotebookInput = () => { 
   const dispatch = useAppDispatch();
 
   const title = useAppSelector((state) => state.notebook.title);
@@ -15,6 +15,7 @@ const NotebookInput = () => {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(e.target.value));
   };
+
   const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && title.trim() !== "") {
       dispatch(toggle);
