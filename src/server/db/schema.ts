@@ -20,7 +20,7 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const createTable = pgTableCreator((name) => `notebook_${name}`);
 
 export const notes = createTable("note", {
-  id: serial("id").primaryKey(),
+  id: serial("id").notNull().primaryKey(),
   content: text("content"),
   notebookId: varchar("notebookId", { length: 255 })
     .notNull()
@@ -34,7 +34,7 @@ export const notes = createTable("note", {
 export const notebooks = createTable(
   "notebook",
   {
-    id: serial("id").primaryKey(),
+    id: serial("id").notNull().primaryKey(),
     title: varchar("title", { length: 256 }),
     authorId: varchar("authorId", { length: 255 })
       .notNull()
@@ -51,7 +51,10 @@ export const notebooks = createTable(
 );
 
 export const users = createTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
