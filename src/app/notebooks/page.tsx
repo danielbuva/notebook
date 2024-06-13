@@ -1,7 +1,9 @@
-import { redirect } from "next/navigation";
-import { getSession } from "~/server/auth";
+import NewNotebookButton from "./components/NewNotebookButton";
 
-export default async function Notebooks() {
-  // const session = await getSession();
-  return <div></div>;
+export default function Notebooks() {
+  return (
+    <div>
+      <NewNotebookButton />
+    </div>
+  );
 }
