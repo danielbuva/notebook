@@ -55,6 +55,9 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
+    redirect: ({ baseUrl }) => {
+      return baseUrl + "/notebooks";
+    },
   },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
@@ -88,4 +91,4 @@ export const authOptions: NextAuthOptions = {
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getSession = () => getServerSession(authOptions);
