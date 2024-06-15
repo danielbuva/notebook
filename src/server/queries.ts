@@ -44,3 +44,15 @@ export async function deleteNotebook(id: number) {
 
   revalidatePath("/notebooks");
 }
+
+export async function getNotebook(notebookId: string) {
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error("unauthorized");
+  }
+
+  return await db.query.notes.findMany({
+    where: (model, { eq }) => eq(model.notebookId, notebookId),
+  });
+}
