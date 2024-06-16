@@ -53,6 +53,14 @@ export async function getNotebook(notebookId: string) {
     throw new Error("unauthorized");
   }
 
+  const notebook = await db.query.notebooks.findFirst({
+    where: (model, { eq }) => eq(model.id, notebookId),
+  });
+
+  if (!notebook) {
+    return false;
+  }
+
   return await db.query.notes.findMany({
     where: (model, { eq }) => eq(model.notebookId, notebookId),
   });

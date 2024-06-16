@@ -1,5 +1,6 @@
 import { getNotebook } from "~/server/queries";
 import AddNote from "./components/AddNote";
+import { notFound } from "next/navigation";
 
 export default async function Notebook({
   params,
@@ -7,6 +8,10 @@ export default async function Notebook({
   params: { notebookId: string };
 }) {
   const notebook = await getNotebook(params.notebookId);
+
+  if (!notebook) {
+    return notFound();
+  }
 
   return (
     <div>
