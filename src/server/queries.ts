@@ -31,7 +31,7 @@ export async function getNotebooks() {
   });
 }
 
-export async function deleteNotebook(id: number) {
+export async function deleteNotebook(id: string) {
   const session = await getSession();
 
   if (!session) {
