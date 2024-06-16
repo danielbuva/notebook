@@ -4,7 +4,6 @@ import {
   integer,
   pgTableCreator,
   primaryKey,
-  serial,
   text,
   timestamp,
   varchar,
@@ -20,12 +19,18 @@ import { type AdapterAccount } from "next-auth/adapters";
 export const createTable = pgTableCreator((name) => `notebook_${name}`);
 
 export const notes = createTable("note", {
-  id: serial("id").notNull().primaryKey(),
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   subject: text("subject"),
   content: text("content"),
-  notebookId: varchar("notebookId", { length: 255 })
+  notebookId: varchar("notebookId")
     .notNull()
-    .references(() => notebooks.id),
+    .references(() => notebooks.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -35,11 +40,14 @@ export const notes = createTable("note", {
 export const notebooks = createTable(
   "notebook",
   {
-    id: serial("id").notNull().primaryKey(),
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
     title: varchar("title", { length: 256 }),
     authorId: varchar("authorId", { length: 255 })
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -70,7 +78,7 @@ export const accounts = createTable(
   {
     userId: varchar("userId", { length: 255 })
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
     type: varchar("type", { length: 255 })
       .$type<AdapterAccount["type"]>()
       .notNull(),
@@ -104,7 +112,7 @@ export const sessions = createTable(
       .primaryKey(),
     userId: varchar("userId", { length: 255 })
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
     expires: timestamp("expires", {
       mode: "date",
       withTimezone: true,
