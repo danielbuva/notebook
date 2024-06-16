@@ -3,7 +3,7 @@
 import { and, eq } from "drizzle-orm";
 import { getSession } from "./auth";
 import { db } from "./db";
-import { notebooks } from "./db/schema";
+import { notebooks, notes } from "./db/schema";
 import { revalidatePath } from "next/cache";
 
 export async function createNotebook() {
@@ -46,6 +46,7 @@ export async function deleteNotebook(id: number) {
 }
 
 export async function getNotebook(notebookId: string) {
+  //@todo check authorization
   const session = await getSession();
 
   if (!session) {
@@ -55,4 +56,15 @@ export async function getNotebook(notebookId: string) {
   return await db.query.notes.findMany({
     where: (model, { eq }) => eq(model.notebookId, notebookId),
   });
+}
+
+export async function newNote(notebookId: string) {
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error("unauthorized");
+  }
+  await db.insert(notes).values({ notebookId });
+
+  revalidatePath(`/notebooks/${notebookId}`);
 }
