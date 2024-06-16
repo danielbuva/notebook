@@ -21,10 +21,11 @@ export const createTable = pgTableCreator((name) => `notebook_${name}`);
 
 export const notes = createTable("note", {
   id: serial("id").notNull().primaryKey(),
+  subject: text("subject"),
   content: text("content"),
   notebookId: varchar("notebookId", { length: 255 })
     .notNull()
-    .references(() => users.id),
+    .references(() => notebooks.id),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
