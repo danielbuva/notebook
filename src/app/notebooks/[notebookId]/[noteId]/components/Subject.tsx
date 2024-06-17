@@ -1,38 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { updateSubject } from "~/server/queries";
 
 export default function Subject({
   initialSubject,
+  notebookId,
   noteId,
 }: {
   initialSubject: string | null;
+  notebookId: string;
   noteId: string;
 }) {
-  const [subject, setSubject] = useState(initialSubject ?? "");
-
-  useEffect(() => {
-    const handleState = () => {
-      updateSubject(subject, noteId).catch(() =>
-        console.log("error submitting subject"),
-      );
-    };
-
-    addEventListener("popstate", handleState);
-    addEventListener("beforeunload", handleState);
-
-    return () => {
-      removeEventListener("popstate", handleState);
-      removeEventListener("beforeunload", handleState);
-    };
-  }, [subject, noteId]);
+  const ref = useRef<NodeJS.Timeout>();
 
   return (
     <input
       className="border-0 bg-transparent p-4 text-2xl outline-none"
-      onChange={(e) => setSubject(e.currentTarget.value)}
-      value={subject}
+      onChange={(e) => {
+        if (ref.current) {
+          clearTimeout(ref.current);
+        }
+        const value = e.currentTarget.value ?? "";
+        ref.current = setTimeout(() => {
+          updateSubject(value, noteId, notebookId).catch(() =>
+            console.log("error submitting subject"),
+          );
+        }, 1000);
+      }}
+      defaultValue={initialSubject ?? ""}
     />
   );
 }

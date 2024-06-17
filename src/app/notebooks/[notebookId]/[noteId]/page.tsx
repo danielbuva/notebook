@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getNote } from "~/server/queries";
 import Subject from "./components/Subject";
+
 export default async function Notebook({
   params,
 }: {
@@ -14,7 +15,11 @@ export default async function Notebook({
 
   return (
     <div>
-      <Subject initialSubject={note.subject} noteId={params.noteId} />
+      <Subject
+        initialSubject={note.subject}
+        noteId={params.noteId}
+        notebookId={note.id}
+      />
       <div>
         <p>{note.content}</p>
       </div>

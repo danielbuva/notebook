@@ -87,8 +87,14 @@ export async function getNote(noteId: string) {
   });
 }
 
-export async function updateSubject(subject: string, noteId: string) {
+export async function updateSubject(
+  subject: string,
+  noteId: string,
+  notebookId: string,
+) {
   await verifySession();
 
   await db.update(notes).set({ subject }).where(eq(notes.id, noteId));
+  //@todo only revalidate path if you leave and come back
+  revalidatePath(`/notebooks/${notebookId}/${noteId}`);
 }
