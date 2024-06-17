@@ -91,3 +91,11 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  */
 export const getSession = () => getServerSession(authOptions);
+
+export async function verifySession(errorMessage?: string) {
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error(errorMessage ?? "unauthorized");
+  }
+}
