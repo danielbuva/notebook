@@ -1,7 +1,7 @@
 "use server";
 
 import { and, eq } from "drizzle-orm";
-import { getSession } from "./auth";
+import { getSession, verifySession } from "./auth";
 import { db } from "./db";
 import { notebooks, notes } from "./db/schema";
 import { revalidatePath } from "next/cache";
@@ -12,6 +12,8 @@ export async function createNotebook() {
   if (!session) {
     throw new Error("sign in to create a notebook");
   }
+
+  await verifySession("sign in to create a notebook");
 
   await db.insert(notebooks).values({ authorId: session.user.id });
 
@@ -47,11 +49,7 @@ export async function deleteNotebook(id: string) {
 
 export async function getNotebook(notebookId: string) {
   //@todo check authorization
-  const session = await getSession();
-
-  if (!session) {
-    throw new Error("unauthorized");
-  }
+  await verifySession();
 
   const notebook = await db.query.notebooks.findFirst({
     where: (model, { eq }) => eq(model.id, notebookId),
@@ -67,12 +65,30 @@ export async function getNotebook(notebookId: string) {
 }
 
 export async function newNote(notebookId: string) {
-  const session = await getSession();
+  await verifySession();
 
-  if (!session) {
-    throw new Error("unauthorized");
-  }
   await db.insert(notes).values({ notebookId });
 
   revalidatePath(`/notebooks/${notebookId}`);
+}
+
+export async function getNote(noteId: string) {
+  await verifySession();
+  const note = await db.query.notes.findFirst({
+    where: (model, { eq }) => eq(model.id, noteId),
+  });
+
+  if (!note) {
+    return false;
+  }
+
+  return await db.query.notes.findFirst({
+    where: (model, { eq }) => eq(model.id, noteId),
+  });
+}
+
+export async function updateSubject(subject: string, noteId: string) {
+  await verifySession();
+
+  await db.update(notes).set({ subject }).where(eq(notes.id, noteId));
 }
