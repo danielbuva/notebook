@@ -5,6 +5,7 @@ import { getSession, verifySession } from "./auth";
 import { db } from "./db";
 import { notebooks, notes } from "./db/schema";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 export async function createNotebook() {
   const session = await getSession();
@@ -95,6 +96,12 @@ export async function updateSubject(
   await verifySession();
 
   await db.update(notes).set({ subject }).where(eq(notes.id, noteId));
-  //@todo only revalidate path if you leave and come back
-  revalidatePath(`/notebooks/${notebookId}/${noteId}`);
+
+  const headersList = headers();
+  const referer = headersList.get("referer");
+  const noteUrl = `/notebooks/${notebookId}/${noteId}`;
+
+  if (referer !== noteUrl) {
+    revalidatePath(noteUrl);
+  }
 }
