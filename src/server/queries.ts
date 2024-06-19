@@ -88,6 +88,8 @@ export async function getNote(noteId: string) {
   });
 }
 
+//@todo add optimistic ui through swr
+
 export async function updateSubject({
   subject,
   notebookId,
@@ -100,6 +102,29 @@ export async function updateSubject({
   await verifySession();
 
   await db.update(notes).set({ subject }).where(eq(notes.id, noteId));
+
+  const headersList = headers();
+  const referer = headersList.get("referer");
+  const origin = headersList.get("origin");
+  const noteUrl = `/notebooks/${notebookId}/${noteId}`;
+
+  if (referer !== origin + noteUrl) {
+    revalidatePath(noteUrl);
+  }
+}
+
+export async function updateContent({
+  content,
+  notebookId,
+  noteId,
+}: {
+  content: string;
+  notebookId: string;
+  noteId: string;
+}) {
+  await verifySession();
+
+  await db.update(notes).set({ content }).where(eq(notes.id, noteId));
 
   const headersList = headers();
   const referer = headersList.get("referer");
