@@ -26,7 +26,7 @@ export default function Subject({
           updateSubject(value, noteId, notebookId).catch(() =>
             console.log("error submitting subject"),
           );
-        }, 1000);
+        }, 200);
       }}
       defaultValue={initialSubject ?? ""}
     />
