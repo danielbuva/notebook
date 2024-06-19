@@ -88,20 +88,25 @@ export async function getNote(noteId: string) {
   });
 }
 
-export async function updateSubject(
-  subject: string,
-  noteId: string,
-  notebookId: string,
-) {
+export async function updateSubject({
+  subject,
+  notebookId,
+  noteId,
+}: {
+  subject: string;
+  notebookId: string;
+  noteId: string;
+}) {
   await verifySession();
 
   await db.update(notes).set({ subject }).where(eq(notes.id, noteId));
 
   const headersList = headers();
   const referer = headersList.get("referer");
+  const origin = headersList.get("origin");
   const noteUrl = `/notebooks/${notebookId}/${noteId}`;
 
-  if (referer !== noteUrl) {
+  if (referer !== origin + noteUrl) {
     revalidatePath(noteUrl);
   }
 }

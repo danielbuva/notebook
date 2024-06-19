@@ -23,7 +23,7 @@ export default function Subject({
         }
         const value = e.currentTarget.value ?? "";
         ref.current = setTimeout(() => {
-          updateSubject(value, noteId, notebookId).catch(() =>
+          updateSubject({ subject: value, notebookId, noteId }).catch(() =>
             console.log("error submitting subject"),
           );
         }, 200);

@@ -17,8 +17,8 @@ export default async function Notebook({
     <div>
       <Subject
         initialSubject={note.subject}
+        notebookId={note.notebookId}
         noteId={params.noteId}
-        notebookId={note.id}
       />
       <div>
         <p>{note.content}</p>
