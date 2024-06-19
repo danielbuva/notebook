@@ -3,9 +3,6 @@ import AddNote from "./components/AddNote";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 export default async function Notebook({
   params,
 }: {
