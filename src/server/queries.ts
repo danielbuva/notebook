@@ -57,12 +57,10 @@ export async function getNotebook(notebookId: string) {
   });
 
   if (!notebook) {
-    return false;
+    throw new Error("notebook not found");
   }
 
-  return await db.query.notes.findMany({
-    where: (model, { eq }) => eq(model.notebookId, notebookId),
-  });
+  return notebook;
 }
 
 export async function newNote(notebookId: string) {
@@ -80,13 +78,20 @@ export async function getNote(noteId: string) {
   });
 
   if (!note) {
-    return false;
+    throw new Error("note not found");
   }
 
-  return await db.query.notes.findFirst({
-    where: (model, { eq }) => eq(model.id, noteId),
-  });
+  return note;
 }
+
+// Utility type to unwrap a Promise
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+// Get the return type of the getNote function
+type Note = ReturnType<typeof getNote>;
+
+// Get the unwrapped return type
+export type UnrwappedNote = UnwrapPromise<Note>;
 
 //@todo add optimistic ui through swr
 
