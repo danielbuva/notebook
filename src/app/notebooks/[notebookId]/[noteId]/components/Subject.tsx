@@ -1,18 +1,16 @@
 "use client";
 
 import { useRef } from "react";
+import { useNote } from "~/app/_components/useSWR";
 import { updateSubject } from "~/server/queries";
 
-export default function Subject({
-  initialSubject,
-  notebookId,
-  noteId,
-}: {
-  initialSubject: string | null;
-  notebookId: string;
-  noteId: string;
-}) {
+export default function Subject({ noteId }: { noteId: string }) {
+  const { data: note, mutate } = useNote(noteId);
   const ref = useRef<NodeJS.Timeout>();
+
+  if (!note) {
+    return null;
+  }
 
   return (
     <input
@@ -23,12 +21,18 @@ export default function Subject({
         }
         const value = e.currentTarget.value ?? "";
         ref.current = setTimeout(() => {
-          updateSubject({ subject: value, notebookId, noteId }).catch(() =>
-            console.log("error submitting subject"),
+          mutate({ ...note, subject: value }, false).catch((err) =>
+            console.log(err),
           );
+
+          updateSubject({
+            subject: value,
+            notebookId: note.notebookId,
+            noteId,
+          }).catch((err) => console.log(err, "error submitting subject"));
         }, 200);
       }}
-      defaultValue={initialSubject ?? ""}
+      defaultValue={note.subject ?? ""}
     />
   );
 }
