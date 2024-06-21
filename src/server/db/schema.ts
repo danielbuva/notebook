@@ -23,8 +23,8 @@ export const notes = createTable("note", {
     .notNull()
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  subject: text("subject"),
-  content: text("content"),
+  subject: text("subject").notNull().default(""),
+  content: text("content").notNull().default(""),
   notebookId: varchar("notebookId")
     .notNull()
     .references(() => notebooks.id, {
@@ -44,7 +44,7 @@ export const notebooks = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    title: varchar("title", { length: 256 }),
+    title: varchar("title", { length: 256 }).notNull().default(""),
     authorId: varchar("authorId", { length: 255 })
       .notNull()
       .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
