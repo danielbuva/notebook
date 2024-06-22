@@ -14,7 +14,7 @@ export default function Subject({ noteId }: { noteId: string }) {
 
   return (
     <input
-      className="border-0 bg-transparent p-4 text-2xl outline-none"
+      className="h-[10%] w-full border-b bg-transparent px-2 py-4 text-2xl outline-none"
       onChange={(e) => {
         if (ref.current) {
           clearTimeout(ref.current);

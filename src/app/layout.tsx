@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="min-h-screen bg-black text-white">
+      <body className="flex min-h-screen flex-col items-center bg-black text-white">
         <NavBar />
         {children}
       </body>
