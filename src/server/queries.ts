@@ -60,7 +60,9 @@ export async function getNotebook(notebookId: string) {
     throw new Error("notebook not found");
   }
 
-  return notebook;
+  return await db.query.notes.findMany({
+    where: (model, { eq }) => eq(model.notebookId, notebookId),
+  });
 }
 
 export async function newNote(notebookId: string) {
