@@ -15,7 +15,7 @@ export default async function Notebook({
   }
 
   return (
-    <div>
+    <>
       hello {params.notebookId}
       <AddNote notebookId={params.notebookId} />
       <div>
@@ -27,6 +27,6 @@ export default async function Notebook({
           </Link>
         ))}
       </div>
-    </div>
+    </>
   );
 }
