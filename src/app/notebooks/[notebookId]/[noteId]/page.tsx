@@ -9,7 +9,7 @@ export default async function Notebook({
   params: { noteId: string };
 }) {
   return (
-    <div className="flex h-[95vh] w-[600px] flex-col items-center rounded-md border px-4">
+    <div className="flex h-[95vh] w-[600px] flex-col rounded-md border border-[#2f3336] p-4">
       <SWRConfig
         value={{ fallback: { [params.noteId]: getNote(params.noteId) } }}
       >

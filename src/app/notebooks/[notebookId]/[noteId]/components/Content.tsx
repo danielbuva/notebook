@@ -13,14 +13,14 @@ export default function Content({ noteId }: { noteId: string }) {
   }
 
   return (
-    <div className="h-full w-full p-4">
+    <div className="h-full w-full px-2 py-6">
       <textarea
-        className="flex h-full w-full flex-grow resize-none bg-transparent text-2xl outline-none"
+        className="flex h-full w-full flex-grow resize-none bg-transparent text-lg outline-none"
         onChange={(e) => {
           if (ref.current) {
             clearTimeout(ref.current);
           }
-          const value = e.currentTarget.value ?? " h-full";
+          const value = e.currentTarget.value ?? "";
           ref.current = setTimeout(() => {
             mutate((prevNote) => {
               if (prevNote) {
