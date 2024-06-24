@@ -7,6 +7,9 @@ import { notebooks, notes } from "./db/schema";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
+// Utility type to unwrap a Promise
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
 export async function createNotebook() {
   const session = await getSession();
 
@@ -48,7 +51,7 @@ export async function deleteNotebook(id: string) {
   revalidatePath("/notebooks");
 }
 
-export async function getNotebook(notebookId: string) {
+export async function getNotesFromNotebook(notebookId: string) {
   //@todo check authorization
   await verifySession();
 
@@ -60,9 +63,15 @@ export async function getNotebook(notebookId: string) {
     throw new Error("notebook not found");
   }
 
-  return await db.query.notes.findMany({
+  const notes = await db.query.notes.findMany({
     where: (model, { eq }) => eq(model.notebookId, notebookId),
   });
+
+  if (!notes) {
+    throw new Error("notes not found");
+  }
+
+  return { notes, title: notebook.title };
 }
 
 export async function newNote(notebookId: string) {
@@ -85,9 +94,6 @@ export async function getNote(noteId: string) {
 
   return note;
 }
-
-// Utility type to unwrap a Promise
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 // Get the return type of the getNote function
 type Note = ReturnType<typeof getNote>;
