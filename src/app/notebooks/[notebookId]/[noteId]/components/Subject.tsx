@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useNote } from "~/app/_components/useSWR";
+import { useNote } from "~/app/components/useSWR";
 import { updateSubject } from "~/server/queries";
 
 export default function Subject({ noteId }: { noteId: string }) {

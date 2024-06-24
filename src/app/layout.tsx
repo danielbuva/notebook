@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-import NavMenu from "./_components/NavMenu";
+import NavMenu from "./components/NavMenu";
 
 export const metadata = {
   title: "notebook",
