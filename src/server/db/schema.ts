@@ -37,6 +37,8 @@ export const notes = createTable("note", {
   updatedAt: timestamp("updatedAt", { withTimezone: true }),
 });
 
+export type Note = typeof notes.$inferSelect;
+
 export const notebooks = createTable(
   "notebook",
   {

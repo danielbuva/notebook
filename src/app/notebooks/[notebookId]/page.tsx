@@ -1,24 +1,18 @@
 import { getNotesFromNotebook } from "~/server/queries";
 import AddNote from "./components/AddNote";
 import NotesList from "./components/NotesList";
-import { SWRConfig } from "swr";
 
 export default async function Notebook({
   params,
 }: {
   params: { notebookId: string };
 }) {
+  const { notes, title } = await getNotesFromNotebook(params.notebookId);
   return (
-    <SWRConfig
-      value={{
-        fallback: {
-          [params.notebookId]: getNotesFromNotebook(params.notebookId),
-        },
-      }}
-    >
-      hello {params.notebookId}
+    <div className="flex h-[86vh] w-[600px] flex-col">
+      {title}
       <AddNote notebookId={params.notebookId} />
-      <NotesList notebookId={params.notebookId} />
-    </SWRConfig>
+      <NotesList notes={notes} notebookId={params.notebookId} />
+    </div>
   );
 }
