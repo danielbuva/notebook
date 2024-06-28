@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Note } from "~/server/db/schema";
+import DeleteNote from "./DeleteNote";
 
 export default function NotesList({
   notes,
@@ -11,12 +12,15 @@ export default function NotesList({
   return (
     <div className="flex gap-4 text-sm">
       {notes.map((n) => (
-        <Link href={`/notebooks/${notebookId}/${n.id}`} key={n.id} replace>
-          <div className="h-20 w-16 cursor-pointer rounded-md border border-[#2f3336]">
-            {n.content}
-          </div>
-          <p>{n.subject}</p>
-        </Link>
+        <div className="flex flex-col" key={n.id}>
+          <Link href={`/notebooks/${notebookId}/${n.id}`} replace>
+            <div className="h-56 w-44 cursor-pointer rounded-md border border-[#2f3336]">
+              {n.content}
+            </div>
+            <p>{n.subject}</p>
+          </Link>
+          <DeleteNote noteId={n.id} notebookId={notebookId} />
+        </div>
       ))}
     </div>
   );

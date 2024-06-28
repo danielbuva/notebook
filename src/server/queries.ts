@@ -101,7 +101,23 @@ type Note = ReturnType<typeof getNote>;
 // Get the unwrapped return type
 export type UnrwappedNote = UnwrapPromise<Note>;
 
-//@todo add optimistic ui through swr
+export async function deleteNote({
+  noteId,
+  notebookId,
+}: {
+  noteId: string;
+  notebookId: string;
+}) {
+  const session = await getSession();
+
+  if (!session) {
+    throw new Error("sign in to delete notebooks");
+  }
+
+  await db.delete(notes).where(eq(notes.id, noteId));
+
+  revalidatePath(`/notebooks/${notebookId}/${noteId}`);
+}
 
 export async function updateSubject({
   subject,

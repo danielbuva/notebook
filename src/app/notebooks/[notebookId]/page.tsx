@@ -8,6 +8,7 @@ export default async function Notebook({
   params: { notebookId: string };
 }) {
   const { notes, title } = await getNotesFromNotebook(params.notebookId);
+
   return (
     <div className="flex h-[86vh] w-[600px] flex-col">
       {title}
