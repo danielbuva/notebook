@@ -10,7 +10,7 @@ export default async function MyNotebooks() {
       {notebooks.map((n) => (
         <div key={n.id}>
           <Link href={`/notebooks/${n.id}`}>
-            <div className="h-20 w-16 border border-[#2f3336]" />
+            <div className="h-56 w-44 rounded-lg border border-[#2f3336]" />
           </Link>
           <DeleteNotebook id={n.id} />
         </div>
