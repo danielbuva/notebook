@@ -51,6 +51,18 @@ export async function deleteNotebook(id: string) {
   revalidatePath("/notebooks");
 }
 
+export async function updateTitle({
+  notebookId,
+  title,
+}: {
+  notebookId: string;
+  title: string;
+}) {
+  await verifySession();
+
+  await db.update(notebooks).set({ title }).where(eq(notebooks.id, notebookId));
+}
+
 export async function getNotesFromNotebook(notebookId: string) {
   //@todo check authorization
   await verifySession();
@@ -128,6 +140,7 @@ export async function updateSubject({
   notebookId: string;
   noteId: string;
 }) {
+  console.log("entered");
   await verifySession();
 
   await db.update(notes).set({ subject }).where(eq(notes.id, noteId));

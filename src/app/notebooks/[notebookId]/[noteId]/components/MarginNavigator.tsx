@@ -12,9 +12,9 @@ export default function MarginNavigator({
   children: ReactNode;
   notebookId: string;
 }) {
-  const { data } = useNotesFromNotebook(notebookId);
+  const { data: notebook } = useNotesFromNotebook(notebookId);
 
-  if (!data?.notes) {
+  if (!notebook?.notes) {
     return null;
   }
 
@@ -25,7 +25,7 @@ export default function MarginNavigator({
         href={`/notebooks/${notebookId}`}
       >
         <BackButtonSVG />
-        {data.title === "" ? "notebook" : data.title}
+        {notebook.title === "" ? "notebook" : notebook.title}
       </Link>
       {children}
     </div>
