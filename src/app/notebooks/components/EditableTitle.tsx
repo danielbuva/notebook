@@ -18,7 +18,6 @@ export default function EditableTitle({
     return null;
   }
   return (
-    // <SWRConfig value={{ fallback: { notebookId: getTitle(notebookId) } }}>
     <input
       className="w-full bg-transparent text-lg font-medium outline-none"
       onChange={(e) => {
@@ -38,6 +37,5 @@ export default function EditableTitle({
       }}
       defaultValue={notebook.title ?? title}
     />
-    // </SWRConfig>
   );
 }
