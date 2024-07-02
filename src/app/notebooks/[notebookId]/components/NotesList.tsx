@@ -10,7 +10,7 @@ export default function NotesList({
   notebookId: string;
 }) {
   return (
-    <div className="flex gap-4 text-sm">
+    <div className="flex flex-wrap gap-x-[36px] text-sm">
       {notes.map((n) => (
         <div className="flex flex-col" key={n.id}>
           <Link href={`/notebooks/${notebookId}/${n.id}`} replace>
