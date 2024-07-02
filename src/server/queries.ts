@@ -33,7 +33,7 @@ export async function getNotebooks() {
 
   return await db.query.notebooks.findMany({
     where: (model, { eq }) => eq(model.authorId, session.user.id),
-    orderBy: (model, { desc }) => desc(model.updatedAt),
+    orderBy: (model, { asc }) => asc(model.createdAt),
   });
 }
 
