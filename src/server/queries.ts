@@ -77,6 +77,7 @@ export async function getNotesFromNotebook(notebookId: string) {
 
   const notes = await db.query.notes.findMany({
     where: (model, { eq }) => eq(model.notebookId, notebookId),
+    orderBy: (model, { asc }) => asc(model.createdAt),
   });
 
   if (!notes) {
